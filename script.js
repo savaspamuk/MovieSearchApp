@@ -33,9 +33,7 @@ form.addEventListener("submit", (event) => {
     if (searchKeyword && searchKeyword !== "") {
         getMovies(SEARCH_API + searchKeyword) ;
         searchMovie.value = "";
-    } else {
-        window.location.reload();
-    }
+    } 
 })
 
 function showMovies(movies) {
@@ -47,24 +45,6 @@ function showMovies(movies) {
         
         const movieElement = document.createElement("div");
         movieElement.classList.add("movie");
-        movieElement.innerHTML = `
-            <img src="${IMG_PATH}${poster_path}" alt="${title}">
-            </div>
-            <div class="movie-info">
-                
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span><h2>${title}</h2>
-            </div>
-            <div class="overview">
-                <h2>${title} <span>Overview</span></h2><p>Release Date: ${release_date}</p>
-                <p>${overview}</p>
-            </div>`;
-
-        main.appendChild(movieElement);
-    });
-}
-
-/*const movieElement = document.createElement("div");
-        movieElement.classList.add("movie");
         
         const imageOfMovie = document.createElement("img")
         imageOfMovie.src = `${IMG_PATH}${poster_path}`;
@@ -72,16 +52,42 @@ function showMovies(movies) {
 
         const movieInfo = document.createElement("div");
         movieInfo.classList.add("movie-info");
-        movieInfo.innerHTML = `<span class="${getClassByRate(vote_average)}">${vote_average}</span><h2>${title}</h2>`;
+
+            const voteOfMovie = document.createElement("span");
+            voteOfMovie.classList.add(getClassByRate(vote_average));
+            voteOfMovie.textContent = vote_average;
+
+            const titleElement = document.createElement("h2");
+            titleElement.textContent = title;
+
+            movieInfo.appendChild(voteOfMovie);
+            movieInfo.appendChild(titleElement);
 
         const overviewOfMovie = document.createElement("div");
         overviewOfMovie.classList.add("overview");
-        overviewOfMovie.innerHTML = `<h2>${title} <span>Overview</span></h2><p>Release Date: ${release_date}</p>
-        <p>${overview}</p>`;
 
-        main.appendChild(imageOfMovie);
-        main.appendChild(movieInfo);
-        main.appendChild(overviewOfMovie);*/
+            const overviewTitle = document.createElement("h2");
+            const titleSpan = document.createElement("span");
+            titleSpan.textContent = "Overview";
+            overviewTitle.textContent = title;
+            overviewTitle.appendChild(titleSpan);
+
+            const releaseDateParagraph = document.createElement("p");
+            releaseDateParagraph.textContent = `Release Date: ${release_date}`;
+
+            const overviewParagraph = document.createElement("p");
+            overviewParagraph.textContent = overview;
+
+            overviewOfMovie.appendChild(overviewTitle);
+            overviewOfMovie.appendChild(releaseDateParagraph);
+            overviewOfMovie.appendChild(overviewParagraph);
+
+        movieElement.appendChild(imageOfMovie);
+        movieElement.appendChild(movieInfo);
+        movieElement.appendChild(overviewOfMovie);
+        main.appendChild(movieElement);
+    });
+}
 
 function getClassByRate(vote) {
     if (vote >= 8) {
